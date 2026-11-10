@@ -41,12 +41,12 @@ jobs:
       - name: Report signing cert
         run: |
           "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify --print-certs \
-            INSTALL-ME-keep-for-days-*.apk | sed -n '1,4p'
+            keep-for-days-*.apk | sed -n '1,4p'
 
       - uses: actions/upload-artifact@v4
         with:
           name: keep-for-days-apk
-          path: INSTALL-ME-keep-for-days-*.apk
+          path: keep-for-days-*.apk
 
       # Rolling release for Obtainium tracking: versioned tag (Obtainium
       # extracts the version from the tag — a tag without one fails with
@@ -54,7 +54,7 @@ jobs:
       # so the newest is always the only/latest one.
       - name: Publish rolling release
         run: |
-          APK=$(ls INSTALL-ME-keep-for-days-*.apk | head -1)
+          APK=$(ls keep-for-days-*.apk | head -1)
           VER=$(basename "$APK" | sed -E 's/.*keep-for-days-([0-9.]+)\.apk/\1/')
           TAG="keep-for-days-v$VER"
           for t in $(gh release list --json tagName --jq '.[].tagName' | grep '^keep-for-days-'); do

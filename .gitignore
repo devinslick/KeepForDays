@@ -3,6 +3,8 @@ debug.keystore
 secrets/
 INSTALL-ME-*.apk
 INSTALL-ME-*.apk.idsys
+keep-for-days-*.apk
+keep-for-days-*.apk.idsig
 *.idsys
 ui9.xml
 INSTALL-ME-*.apk.idsig

@@ -18,7 +18,7 @@ VER_NAME=1.0.1
 VER_CODE=2
 KSTORE="${KSTORE:-debug.keystore}"
 KSTOREPASS="${KSTOREPASS:-android}"
-OUT="INSTALL-ME-keep-for-days-$VER_NAME.apk"
+OUT="keep-for-days-$VER_NAME.apk"
 
 rm -rf build
 mkdir -p build/classes build/dex build/gen
