@@ -14,8 +14,8 @@ SDK="${ANDROID_SDK:-$HOME/.local/share/android-sdk}"
 # (CI keeps the pinned 34.0.0/android-34; local builds may pass BT/PLATFORM).
 BT="${BT:-$SDK/build-tools/34.0.0}"
 PLATFORM="${PLATFORM:-$SDK/platforms/android-34/android.jar}"
-VER_NAME=1.0.0
-VER_CODE=1
+VER_NAME=1.0.1
+VER_CODE=2
 KSTORE="${KSTORE:-debug.keystore}"
 KSTOREPASS="${KSTOREPASS:-android}"
 OUT="INSTALL-ME-keep-for-days-$VER_NAME.apk"

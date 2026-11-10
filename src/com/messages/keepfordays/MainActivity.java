@@ -32,7 +32,7 @@ import java.io.OutputStream;
  *  run). Engine logic stays in Ops/TestOps — this file is UI only. */
 public class MainActivity extends Activity {
 
-    static final String VER = "1.0.0";
+    static final String VER = "1.0.1";
 
     static final String[] NAV = {"Home", "Basic", "Advanced", "Scheduling",
             "Notifications", "Debug", "Help", "Logs", "About"};
@@ -552,16 +552,19 @@ public class MainActivity extends Activity {
         LinearLayout src = Ui.card(this);
         src.addView(Ui.title(this, "Source code"));
         src.addView(Ui.body(this,
-                "The app will be published publicly. Repository and"
-                + " release details will appear here."));
+                "Open source (MIT). Source, releases, and issue"
+                + " tracker:"));
+        final String repoUrl = "https://github.com/devinslick/KeepForDays";
+        src.addView(Ui.mono(this, repoUrl));
+        Button rc = Ui.tonal(this, "COPY REPO URL");
+        rc.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Ui.copyToClipboard(MainActivity.this, repoUrl,
+                        "Repository URL copied");
+            }
+        });
+        src.addView(rc);
         sectionHost.addView(src);
-
-        LinearLayout ct = Ui.card(this);
-        ct.addView(Ui.title(this, "Contact"));
-        ct.addView(Ui.body(this,
-                "Contact details will be published with the public"
-                + " release."));
-        sectionHost.addView(ct);
 
         LinearLayout sec = Ui.card(this);
         sec.addView(Ui.title(this, "Security"));
