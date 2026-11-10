@@ -15,7 +15,7 @@ import android.provider.Telephony;
 /** Core engine: retention window/HA key/schedule persistence, provider
  *  counts (plain READ_SMS), and the delete pass.
  *
- *  v1.8.0 PROVISIONED MODE (the dance-eliminator, Devin 2026-11-06):
+ *  v1.8.0 PROVISIONED MODE (eliminates the SMS-role flip; Devin 2026-11-06):
  *  the provider write gate is the WRITE_SMS AppOps op — the role was
  *  only ever the standard vehicle for setting it. One-time shell
  *  provisioning
@@ -24,7 +24,7 @@ import android.provider.Telephony;
  *  the role, WITHOUT a11y, WITHOUT WADB — live-verified on GOS/A17
  *  (probe A/B 2026-11-06: role-less deletes ret=100 100->0 and
  *  inserts 3/3 land; role stayed with Google Messages throughout).
- *  The entire dance (a11y + WADB + role flips) is GONE from this app.
+ *  The entire role-flip machinery (a11y + WADB) is GONE from this app.
  *
  *  v1.12.0 CALL HISTORY (Devin 2026-11-09): the same retention
  *  policy/actions now cover the call log too (CallLog.Calls, voicemail
@@ -235,7 +235,7 @@ public final class Ops {
                 + (call ? "" : " — fix: " + PROVISION_CMD_CALL);
     }
 
-    // ---- last pass verdict (panel status; ex-dance_state/dance_last) ----
+    // ---- last pass verdict (panel status) ----
 
     public static void setLastVerdict(Context c, String v) {
         p(c).edit().putString("last_verdict", v).commit();
@@ -344,8 +344,8 @@ public final class Ops {
         return p(c).getLong("last_fire_ms", 0);
     }
 
-    // ---- (v1.6.x Wi-Fi precondition reads removed with the dance:
-    //      a provisioned pass needs no screen, no Wi-Fi, no listener) ----
+    // ---- (legacy Wi-Fi precondition reads removed: a provisioned
+    //      pass needs no screen, no Wi-Fi, no listener) ----
 
     public static void recordFire(Context c) {
         p(c).edit().putLong("last_fire_ms", System.currentTimeMillis()).commit();

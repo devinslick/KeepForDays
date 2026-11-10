@@ -11,7 +11,7 @@ import android.os.Bundle;
  *     fires action com.messages.keepfordays.action.RUN_RETENTION with
  *     extra key = <shared secret set in the panel>. Wrong/missing key
  *     or unconfigured key = refused and logged, never silent. Runs the
- *     provider pass DIRECTLY — no dance, no a11y, no WADB (v1.8.0).
+ *     provider pass DIRECTLY — no role flips, no a11y, no WADB.
  *
  *  2. RUN_PASS (explicit-component broadcast — NOT in the intent-filter;
  *     adb/orchestrator use):
@@ -30,7 +30,7 @@ import android.os.Bundle;
  *
  *  v1.1.9–v1.7.x history: RUN_PASS used to require a SHELL-GRANTED role
  *  (flip-archiver first, flip-messages after; SHELL_HANDBACK_PENDING).
- *  That whole dance is gone — the appop IS the write privilege
+ *  That whole machinery is gone — the appop IS the write privilege
  *  (live-verified on GOS/A17, probe A/B 2026-11-06).
  */
 public class RetentionReceiver extends BroadcastReceiver {

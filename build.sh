@@ -2,8 +2,8 @@
 # Keep For Days — gradle-free build (android-minimal-apk pattern).
 # No aars, no aidl; single-module offline build.
 # Local debug keystore lives in this dir: same-key builds update in place.
-# The PHONE runs CI-signed builds (cert 267b7543…db56f2, keystore in
-# Bitwarden) — sign with KSTORE=<ci-keystore> KSTOREPASS=<pw> for an
+# The PHONE runs CI-signed builds (cert 267b7543…db56f2, CI keystore
+# kept in a private vault) — sign with KSTORE=<ci-keystore> KSTOREPASS=<pw> for an
 # in-place-update artifact.
 set -eu
 

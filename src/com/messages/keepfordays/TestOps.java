@@ -22,7 +22,7 @@ import java.util.ArrayList;
  *      purge/counts use "date < 2000-01-01" so BOTH bases are covered.
  *
  * PRIVILEGES (v1.8.0): writes need the WRITE_SMS appop — provisioning
- * makes seed/purge/run direct, dance-free, any time (no role window:
+ * makes seed/purge/run direct, any time (no role window:
  * the app never holds the SMS role at all now). v1.12.0: call seeds
  * need their own pair (WRITE_CALL_LOG appop + READ_CALL_LOG);
  * provisioning is per-type — an SMS skip never blocks a call seed.

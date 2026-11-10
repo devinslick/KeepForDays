@@ -25,7 +25,7 @@
     <uses-permission android:name="android.permission.READ_CALL_LOG"/>
     <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
-    <!-- v1.8.0-era PROVISIONED MODE — the dance-eliminator (verified
+    <!-- PROVISIONED MODE — eliminates the SMS-role flip (verified
          live on GOS/A17 2026-11-06): the provider write gate is the
          WRITE_SMS AppOps op, settable DIRECTLY by one shell command
          (adb shell appops set com.messages.keepfordays WRITE_SMS allow).

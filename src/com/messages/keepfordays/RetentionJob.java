@@ -8,8 +8,8 @@ import android.app.job.JobService;
  *  RE-ARMS tomorrow's job FIRST (a failed run never orphans the chain),
  *  then runs the provider pass DIRECTLY — provisioned mode needs no
  *  screen, no a11y, no WADB, no Wi-Fi, so a locked/asleep 03:00 run just
- *  runs. (The v1.5.5–v1.7.x FSI/unlock-defer machinery is gone with the
- *  dance; UnlockReceiver is deleted.) NOTE: force-stop suspends jobs
+ *  runs. (The legacy FSI/unlock-defer machinery is gone;
+ *  UnlockReceiver is deleted.) NOTE: force-stop suspends jobs
  *  platform-wide until the app is next launched — the panel shows an
  *  OVERDUE flag. */
 public class RetentionJob extends JobService {
