@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dance_desc">Runs the default-SMS role dance unattended: acquire the role, run the retention delete pass, hand the role back to Google Messages. No coordinate taps — id+text matched buttons only.</string>
+</resources>

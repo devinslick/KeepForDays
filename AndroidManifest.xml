@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.messages.keepfordays"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- v1.12.0 CALL HISTORY (per-type provisioning; Devin 2026-11-09):
+         READ_CALL_LOG is the read gate for CallLog counts + sweeps;
+         WRITE_CALL_LOG declares the appop the one-time shell command
+         allows (adb shell appops set com.messages.keepfordays
+         WRITE_CALL_LOG allow). NEVER granting READ_CALL_LOG is the
+         supported opt-out: the app then never touches call history,
+         and sms/mms passes are unaffected. -->
+
+    <!-- Persisted JobScheduler jobs REQUIRE this permission (verified:
+         setPersisted(true) throws IllegalArgumentException without it —
+         schedule toggle refused loudly 2026-11-04). -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
+
+    <!-- v1.8.0-era PROVISIONED MODE — the dance-eliminator (verified
+         live on GOS/A17 2026-11-06): the provider write gate is the
+         WRITE_SMS AppOps op, settable DIRECTLY by one shell command
+         (adb shell appops set com.messages.keepfordays WRITE_SMS allow).
+         No role flips, so no a11y service, no WADB client, no
+         INTERNET/FSI/SYSTEM_ALERT_WINDOW permissions — the app is
+         fully offline. The SMS role RESTS with the default messaging
+         app permanently. -->
+
+    <application
+        android:label="Keep For Days"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@android:style/Theme.DeviceDefault.DayNight"
+        android:allowBackup="false">
+
+        <activity android:name=".MainActivity" android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- v1.9.0 skippable first-run wizard (permissions check/warning
+             included); never shown again once completed or skipped. -->
+        <activity android:name=".OnboardingActivity" android:exported="false"/>
+
+        <!-- SMS-role quartet (KEEP INTACT — qualification for the role
+             depends on every component; A17/GOS-verified set). v1.8.0:
+             INERT while the role rests with Google Messages — the app
+             never holds the role anymore — but kept so a future
+             role-hold fallback needs no re-derivation of the
+             qualification requirements. -->
+        <receiver android:name=".SmsDeliverReceiver" android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_DELIVER"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver android:name=".MmsPushReceiver" android:exported="true"
+            android:permission="android.permission.BROADCAST_WAP_PUSH">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER"/>
+                <data android:mimeType="application/vnd.wap.mms-message"/>
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".RespondViaMessageService" android:exported="true"
+            android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE">
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE"/>
+                <data android:scheme="sms"/>
+                <data android:scheme="smsto"/>
+            </intent-filter>
+        </service>
+
+        <activity android:name=".SmsComposeActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="smsto"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SENDTO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="sms"/>
+                <data android:scheme="mms"/>
+                <data android:scheme="mmsto"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Daily persisted job (one-shot chained at the run hour,
+             survives reboot). v1.8.0: runs the provider pass DIRECTLY —
+             provisioned mode needs no screen, no a11y, no WADB, no
+             Wi-Fi, so locked/asleep 03:00 runs just run. -->
+        <service android:name=".RetentionJob" android:exported="true"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <!-- Home Assistant trigger: shared-secret key extra (HA companion
+             is 3P; no platform gate covers it). Wrong/missing key = loud
+             refusal, nothing runs. RUN_PASS is explicit-component only
+             (orchestration entry point, not implicit-broadcast). -->
+        <receiver android:name=".RetentionReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.messages.keepfordays.action.RUN_RETENTION"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Testbed boundary tester (explicit-component broadcasts only,
+             provisioned-gated; see BoundaryTestReceiver.java). -->
+        <receiver android:name=".BoundaryTestReceiver" android:exported="true">
+        </receiver>
+    </application>
+</manifest>

@@ -1,0 +1,9 @@
+build/
+debug.keystore
+secrets/
+INSTALL-ME-*.apk
+INSTALL-ME-*.apk.idsys
+*.idsys
+ui9.xml
+INSTALL-ME-*.apk.idsig
+*.idsig

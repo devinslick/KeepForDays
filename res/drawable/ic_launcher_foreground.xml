@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- AOSP-Messaging-style speech bubble: white rounded bubble with a
+     lower-left tail and three background-colored dots. Glyph kept
+     inside the 66dp adaptive-icon safe zone (center 54,54). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- bubble body + tail -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M33,37 h42 a7,7 0 0 1 7,7 v20 a7,7 0 0 1 -7,7 h-25 l-10,10 v-10 h-7 a7,7 0 0 1 -7,-7 v-20 a7,7 0 0 1 7,-7 z" />
+    <!-- three dots (same color as background for a punched look) -->
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M45,54 m-3.2,0 a3.2,3.2 0 1 0 6.4,0 a3.2,3.2 0 1 0 -6.4,0" />
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M54,54 m-3.2,0 a3.2,3.2 0 1 0 6.4,0 a3.2,3.2 0 1 0 -6.4,0" />
+    <path
+        android:fillColor="#1E88E5"
+        android:pathData="M63,54 m-3.2,0 a3.2,3.2 0 1 0 6.4,0 a3.2,3.2 0 1 0 -6.4,0" />
+</vector>
